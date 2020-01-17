@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-MVC_LMS-B68C7540-50EF-487C-9F6B-36E86DD527A2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20200114202809_ReserveTableCreation.cs" />
+    <Compile Remove="Data\Migrations\20200114202809_ReserveTableCreation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200114203829_ReserveTableCreation.cs" />
+    <Compile Remove="Data\Migrations\20200114203829_ReserveTableCreation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200116150417_ReserveTableModification_ProperFK_UserID.cs" />
+    <Compile Remove="Data\Migrations\20200116150417_ReserveTableModification_ProperFK_UserID.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200117154109_BorrowTable.cs" />
+    <Compile Remove="Data\Migrations\20200117154109_BorrowTable.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+  </ItemGroup>
+
+</Project>
