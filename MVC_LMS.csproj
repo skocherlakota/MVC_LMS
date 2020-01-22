@@ -16,6 +16,8 @@
     <Compile Remove="Data\Migrations\20200117154109_BorrowTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20200117202929_BorrowTableComputedColumn.cs" />
     <Compile Remove="Data\Migrations\20200117202929_BorrowTableComputedColumn.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200122143441_BorrowTableRemoveRequiredField.cs" />
+    <Compile Remove="Data\Migrations\20200122143441_BorrowTableRemoveRequiredField.Designer.cs" />
   </ItemGroup>
 
 

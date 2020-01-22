@@ -26,8 +26,58 @@ namespace MVC_LMS.Controllers
         // GET: Borrows
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Borrows.Include(b => b.Copi);
-            return View(await applicationDbContext.ToListAsync());
+            ////IQueryable<BorrowsViewModel> borrowedBooks = (IQueryable < BorrowsViewModel >)
+            //List<BorrowsViewModel> borrowslist = new List<BorrowsViewModel>();
+            //var bb = from b in _context.Book
+            //                           from c in b.Copies
+            //                           from br in _context.Borrows
+            //                           where c.ID == br.CopyID
+            //                           && br.UserID == userIdX
+            //                           orderby (br.BorrowDate)
+            //                           select new {br.BorrowID, b.Title, br.BorrowDate, br.ReturnDate, br.ActualReturnDate , br.Fine };
+            ////_context.Borrows.Include(c => c.Copi).Where(x =>x.UserID == userIdX);
+
+            //foreach (var item in bb)
+            //{
+            //    BorrowsViewModel b = new BorrowsViewModel();
+            //    b.BorrowID = item.BorrowID;
+            //    b.Title = item.Title;
+            //    b.BorrowDate = item.BorrowDate;
+            //    b.ReturnDate = (DateTime) item.ReturnDate;
+            //    b.ActualReturnDate = item.ActualReturnDate;
+            //    b.Fine = item.Fine;
+            //    borrowslist.Add(b);
+            //}
+            return View(await GetBorrows());
+
+        }
+
+        public Task<List<BorrowsViewModel>> GetBorrows()
+        {
+            //IQueryable<BorrowsViewModel> borrowedBooks = (IQueryable < BorrowsViewModel >)
+            List<BorrowsViewModel> borrowslist = new List<BorrowsViewModel>();
+            var bb = from b in _context.Book
+                     from c in b.Copies
+                     from br in _context.Borrows
+                     where c.ID == br.CopyID
+                     && br.UserID == userIdX
+                     orderby (br.BorrowDate)
+                     select new { br.BorrowID, b.Title, br.BorrowDate, br.DueDate, br.ActualReturnDate, br.Fine };
+            //_context.Borrows.Include(c => c.Copi).Where(x =>x.UserID == userIdX);
+
+            foreach (var item in bb)
+            {
+                BorrowsViewModel b = new BorrowsViewModel();
+                b.BorrowID = item.BorrowID;
+                b.Title = item.Title;
+                b.BorrowDate = item.BorrowDate;
+                b.DueDate = (DateTime)item.DueDate;
+                b.ActualReturnDate = item.ActualReturnDate;
+                b.Fine = item.Fine;
+                borrowslist.Add(b);
+            }
+            return Task.FromResult(borrowslist);
+
         }
 
         // GET: Borrows/Details/5
@@ -38,15 +88,32 @@ namespace MVC_LMS.Controllers
                 return NotFound();
             }
 
-            var borrow = await _context.Borrows
-                .Include(b => b.Copi)
-                .FirstOrDefaultAsync(m => m.BorrowID == id);
+            //var borrow = await _context.Borrows
+            //    .Include(b => b.Copi)
+            //    .FirstOrDefaultAsync(m => m.BorrowID == id);
+            var borrow = from b in _context.Book
+                     from c in b.Copies
+                     from br in _context.Borrows
+                     where c.ID == br.CopyID
+                     && br.UserID == userIdX
+                     && br.BorrowID == id
+                     orderby (br.BorrowDate)
+                     select new { br.BorrowID, b.Title, br.BorrowDate, br.DueDate, br.ActualReturnDate, br.Fine };
+
             if (borrow == null)
             {
                 return NotFound();
             }
 
-            return View(borrow);
+            BorrowsViewModel bvm = new BorrowsViewModel();
+            bvm.BorrowID = borrow.FirstOrDefault().BorrowID;
+            bvm.Title = borrow.FirstOrDefault().Title;
+            bvm.BorrowDate = borrow.FirstOrDefault().BorrowDate;
+            bvm.DueDate = (DateTime) borrow.FirstOrDefault().DueDate;
+            bvm.ActualReturnDate = borrow.FirstOrDefault().ActualReturnDate;
+            bvm.Fine = borrow.FirstOrDefault().Fine;
+
+            return View(bvm);
         }
 
         // GET: Borrows/Create
@@ -85,19 +152,16 @@ namespace MVC_LMS.Controllers
                 borrow.UserLastUpdated = User.Identity.Name;
                 borrow.LogicalDeleted = false;
                 _context.Add(borrow);
+                var copi = await _context.Copi
+                .FirstOrDefaultAsync(m => m.ID == borrow.CopyID);
+                copi.IsBorrowed = true;
+                copi.DateLastUpdated = DateTime.Now;
+                copi.UserLastUpdated = User.Identity.Name;
+                _context.Update(copi);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-    //        var skills =
-    //from e in _context.Book
-    //from s in e.Copies
-    //where s.IsBorrowed == false
-    //select new { e.Title, s.ID };
-
-    //        var results = skills.Distinct().OrderBy(x => x.Title);
-
-    //        ViewData["CopyID"] = new SelectList(results, "ID", "Title", borrow.CopyID);
-
+   
             var availableCopies =
                 from e in _context.Book
                 from s in e.Copies

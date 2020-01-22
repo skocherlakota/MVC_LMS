@@ -27,7 +27,7 @@ namespace MVC_LMS.Models
         public DateTime BorrowDate { get; set; }
         [DataType(DataType.Date)]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime? ReturnDate {
+        public DateTime? DueDate {
             get {
                 return BorrowDate.AddDays(14);
             }

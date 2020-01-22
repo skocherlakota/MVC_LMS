@@ -63,12 +63,9 @@ namespace MVC_LMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReserveID,BookID,ReserveDate")] Reserve reserve)
         {
+            reserve.UserID = userIdX;
             if (ModelState.IsValid)
             {
-                //ConfigureViewModel(reserve);
-                //string s = this.User.FindFirst(ClaimTypes.Name).Value; //User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                //reserve.UserProfile; // = new ApplicationUser();
-                reserve.UserID = userIdX;
                 reserve.DateLastUpdated = DateTime.Now;
                 reserve.UserLastUpdated = User.Identity.Name;
                 reserve.LogicalDeleted = false;

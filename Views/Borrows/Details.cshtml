@@ -1,4 +1,4 @@
-﻿@model MVC_LMS.Models.Borrow
+﻿@model MVC_LMS.Models.BorrowsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,41 +10,35 @@
     <h4>Borrow</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserID)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserID)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BorrowDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BorrowDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReturnDate)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DueDate)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReturnDate)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DueDate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ActualReturnDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ActualReturnDate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Fine)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Fine)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Copi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Copi.ID)
         </dd>
     </dl>
 </div>
