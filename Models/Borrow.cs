@@ -15,7 +15,7 @@ namespace MVC_LMS.Models
         public int BorrowID { get; set; }
 
         [ForeignKey("AspNetUsers")]
-        [Required]
+        [ScaffoldColumn(false)]
         public string UserID { get; set; }
 
         [ForeignKey("Copi")]
