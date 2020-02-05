@@ -1,0 +1,1 @@
+# MVC_LMS[![Build Status](https://dev.azure.com/srkocherlakota/MVCLMS/_apis/build/status/MVCLMS?branchName=master)](https://dev.azure.com/srkocherlakota/MVCLMS/_build/latest?definitionId=1&branchName=master)
