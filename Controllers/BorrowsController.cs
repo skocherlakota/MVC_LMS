@@ -34,13 +34,13 @@ namespace MVC_LMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var borrow = await GetBorrowDetails(id);
             if (borrow.BorrowID == 0)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return View(borrow);
@@ -114,13 +114,13 @@ namespace MVC_LMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var borrow = await GetBorrowDetails(id); //await _context.Borrows.FindAsync(id);
             if (borrow.BorrowID == 0)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var borrowedCopi =
@@ -146,7 +146,7 @@ namespace MVC_LMS.Controllers
             borrow.UserID = userIdX;
             if (id != borrow.BorrowID)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             if (ModelState.IsValid)
@@ -165,7 +165,7 @@ namespace MVC_LMS.Controllers
                 {
                     if (!BorrowExists(borrow.BorrowID))
                     {
-                        return NotFound();
+                        return RedirectToAction("Index", "Error");
                     }
                     else
                     {
@@ -174,7 +174,16 @@ namespace MVC_LMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CopyID"] = new SelectList(_context.Copi, "ID", "ID", borrow.CopyID);
+            var borrowedCopi =
+                from bk in _context.Book
+                from c in bk.Copies
+                from br in _context.Borrows
+                where c.ID == br.CopyID
+                && br.UserID == userIdX
+                && br.BorrowID == id
+                select new { bk.Title, c.ID };
+
+            ViewData["CopyID"] = new SelectList(borrowedCopi, "ID", "Title", id);
             return View(borrow);
         }
 
@@ -183,15 +192,15 @@ namespace MVC_LMS.Controllers
         {
             if (id == null)
             {
-                //return NotFound();
-                return NotFound();
+                //return RedirectToAction("Index", "Error");
+                return RedirectToAction("Index", "Error");
             }
 
             var borrow = await GetBorrowDetails(id);
 
             if (borrow.BorrowID == 0)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
             return View(borrow);
         }
